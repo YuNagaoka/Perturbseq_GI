@@ -200,7 +200,7 @@ def _prep_X_y(pop, key, cells=None, genes=None, normalized=True, feature_table=N
 def _get_tree_classifier(clf, n_jobs=1, n_estimators=None, random_state=None):
     """Helper function that gets an appropriate random forest classifier
     """
-    if isinstance(clf, basestring):
+    if isinstance(clf, str):
         if clf == 'extra':
             tree = ExtraTreesClassifier(n_jobs=n_jobs, n_estimators=n_estimators, class_weight='balanced', random_state=random_state)
         elif clf_type == 'random':
