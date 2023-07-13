@@ -125,7 +125,7 @@ def bins_to_patches(bins, height, c, bottom=0, orientation='vertical'):
         bottoms = bins[1:]
         widths = bins[1:] - bins[:-1]
     
-    if isinstance(c, basestring):
+    if isinstance(c, str):
         cs = [c,]*(len(bins) - 1)
     else:
         cs = c
@@ -336,7 +336,7 @@ def onesense(x, y, c, xs, ys,
         leftsx = list(compress(binsx[:-1], make_patchx))
         rightsx = list(compress(binsx[1:], make_patchx))
         
-        ind = np.lexsort(zip(*annotations))
+        ind = np.lexsort(list(zip(*annotations)))
         annotations = annotations[ind]
         ax, ay = zip(*annotations)
         ax = np.array(ax)
@@ -350,7 +350,7 @@ def onesense(x, y, c, xs, ys,
                 x_offset = x_offset + 1.5
                 axScatter.add_patch(patches.Rectangle((leftsx[j], bottomsy[i]), rightsx[j] - leftsx[j], topsy[i] - bottomsy[i],
                                    fill=False, edgecolor='lightgrey'))
-                
+
     return clustersx, clustersy
     
 def find_nearest(array, value):
