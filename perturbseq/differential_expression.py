@@ -227,7 +227,7 @@ def _test_feature_performance(X, y, clf='extra', n_estimators=None, random_state
     if n_estimators is None:
         n_estimators = _get_tree_num(X.shape[1], depth=None)
     
-    print('Using {0} estimators for {1} features...').format(n_estimators, X.shape[1])
+    print('Using {0} estimators for {1} features...'.format(n_estimators, X.shape[1]))
     clf_tree = _get_tree_classifier(clf, n_estimators=n_estimators, n_jobs=n_jobs, random_state=random_state)
     clf_tree.fit(X_train, y_train)
     
