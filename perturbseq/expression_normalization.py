@@ -133,12 +133,12 @@ def normalize_matrix_to_control(matrix, control_matrix, scale_by_total=True, med
                                                                    pop.matrix.loc[control_cells].copy())
 
     """
-    if isinstance(matrix, pd.SparseDataFrame):
+    if isinstance(matrix, pd.DataFrame) and matrix.dtypes.apply(pd.api.types.is_sparse).any():
         print('     Densifying matrix...')
-        matrix = matrix.to_dense()
-    if isinstance(control_matrix, pd.SparseDataFrame):
+        matrix = matrix.sparse.to_dense()
+    if isinstance(control_matrix, pd.DataFrame) and control_matrix.dtypes.apply(pd.api.types.is_sparse).any():
         print('     Densifying control matrix...')
-        control_matrix = control_matrix.to_dense()
+        control_matrix = control_matrix.sparse.to_dense()
 
     if (scale_by_total):
         print("     Determining scale factors...")
