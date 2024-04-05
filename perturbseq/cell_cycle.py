@@ -174,7 +174,7 @@ def get_cell_phase(pop, gene_list=None, refine=False, threshold=0):
     # pick maximal score as the phase for that cell
     cell_cycle_scores['cell_cycle_phase'] = cell_cycle_scores.idxmax(axis=1)
     cell_cycle_scores['cell_cycle_phase'] = cell_cycle_scores['cell_cycle_phase'].astype('category')
-    cell_cycle_scores['cell_cycle_phase'].cat.set_categories(phase_list, inplace=True)
+    cell_cycle_scores['cell_cycle_phase'] = cell_cycle_scores['cell_cycle_phase'].cat.set_categories(phase_list)
 
     def progress_ratio(x, phase_list):
         ind = phase_list.index(x['cell_cycle_phase'])
@@ -182,9 +182,8 @@ def get_cell_phase(pop, gene_list=None, refine=False, threshold=0):
 
     # interpolate position within given cell cycle phase
     cell_cycle_scores['cell_cycle_progress'] = cell_cycle_scores.apply(lambda x: progress_ratio(x, list(phase_list)), axis=1)
-    cell_cycle_scores.sort_values(['cell_cycle_phase', 'cell_cycle_progress'],
-                                  ascending=[True, False],
-                                  inplace=True)
+    cell_cycle_scores = cell_cycle_scores.sort_values(['cell_cycle_phase', 'cell_cycle_progress'],
+                                                   ascending=[True, False])
 
     # order of cell within cell cycle phase
     cell_cycle_scores['cell_cycle_order'] = cell_cycle_scores.groupby('cell_cycle_phase').cumcount()
