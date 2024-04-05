@@ -824,7 +824,7 @@ class CellPopulation:
         print('Sparsifying matrix...')
         self.matrix = self.matrix.to_sparse(fill_value=fill_value)
         
-        def densify_matrix(self):
+    def densify_matrix(self):
         print('Densifying matrix...')
         for col in self.matrix.columns:
             if pd.api.types.is_sparse(self.matrix[col].dtype):
