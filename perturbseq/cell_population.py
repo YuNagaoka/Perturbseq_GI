@@ -966,7 +966,7 @@ class CellPopulation:
         """
         num_graphs = len(properties)
     
-        if types is None or types is 'discrete':
+        if types is None or types == 'discrete':
             types = ('trait',)*num_graphs
         elif len(types) == 1:
             types = (types,)*num_graphs
