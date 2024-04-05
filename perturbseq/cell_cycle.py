@@ -204,7 +204,7 @@ def add_cell_cycle_scores(pop, gene_list=None):
     cell_cycle_scores = get_cell_phase(pop, refine=True, gene_list=gene_list, threshold=0.2)
     pop.add_property(cells=cell_cycle_scores)
     pop.cells['cell_cycle_phase'] = cell_cycle_scores['cell_cycle_phase'].astype('category')
-    pop.cells['cell_cycle_phase'].cat.set_categories(phase_list, inplace=True)
+    pop.cells['cell_cycle_phase'] = pop.cells['cell_cycle_phase'].cat.set_categories(phase_list)
     
 def cell_cycle_position_heatmap(pop, cells=None, **kwargs):
     """Plot a heatmap of cells ordered by cell cycle position
@@ -220,8 +220,8 @@ def cell_cycle_position_heatmap(pop, cells=None, **kwargs):
         celllist = pop.where(cells=cells, **kwargs).index
         cell_cycle_scores = pop.cells.loc[celllist][['G1-S', 'S', 'G2-M', 'M', 'M-G1','cell_cycle_phase', 'cell_cycle_progress']].dropna()
 
-    cell_cycle_scores.sort_values(['cell_cycle_phase', 'cell_cycle_progress'],
-                                  ascending=[True, False],
-                                  inplace=True)
+    cell_cycle_scores = cell_cycle_scores.sort_values(['cell_cycle_phase', 'cell_cycle_progress'],
+                                                  ascending=[True, False])
+    
     ax = sns.heatmap(cell_cycle_scores[cell_cycle_scores.columns[:-2]].transpose(), annot=False, xticklabels=False, linewidths=0)
 
