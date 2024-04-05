@@ -751,8 +751,9 @@ class CellPopulation:
 
         # this sorts the ids that have been found into the query order
         deduplicated_list['gene_name'] = deduplicated_list['gene_name'].astype("category")
-        deduplicated_list['gene_name'].cat.set_categories(gene_list, inplace=True)
-        deduplicated_list.sort_values('gene_name', inplace=True)
+        deduplicated_list['gene_name'] = deduplicated_list['gene_name'].cat.set_categories(gene_list)
+        deduplicated_list = deduplicated_list.sort_values('gene_name')
+
         
         if len(deduplicated_list) == 1:
             return deduplicated_list['gene_id'].values[0]
