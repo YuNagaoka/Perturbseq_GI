@@ -822,8 +822,9 @@ class CellPopulation:
             
     def sparsify_matrix(self, fill_value=0):
         print('Sparsifying matrix...')
-        self.matrix = self.matrix.to_sparse(fill_value=fill_value)
-        
+        for col in self.matrix.columns:
+            self.matrix[col] = self.matrix[col].astype(pd.SparseDtype("float", fill_value))
+            
     def densify_matrix(self):
         print('Densifying matrix...')
         for col in self.matrix.columns:
@@ -835,9 +836,12 @@ class CellPopulation:
         for col in self.normalized_matrix.columns:
             self.normalized_matrix[col] = self.normalized_matrix[col].astype(pd.SparseDtype("float", fill_value))
 
-    def densify_normalized_matrix(self, fill_value=0):
+    def densify_normalized_matrix(self):
         print('Densifying normalized matrix...')
-        self.normalized_matrix = self.normalized_matrix.to_dense()
+        for col in self.normalized_matrix.columns:
+            if pd.api.types.is_sparse(self.normalized_matrix[col].dtype):
+                self.normalized_matrix[col] = self.normalized_matrix[col].sparse.to_dense()
+
             
     def plot(self, data, clusters=None, traits=None, gene=None, normalized=True, cluster_subset=None, cluster_size_threshold=0, cm=None, randomize_cmap=False, s=10, alpha=1, auxiliary_matrix=None, no_axes=True, no_cbar=False):
         """Plot a CellPopulation according to some projection. Can plot categorical or continuous traits (from pop.cells)
