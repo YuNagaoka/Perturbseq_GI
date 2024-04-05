@@ -250,12 +250,12 @@ class CellPopulation:
         else:
             matrix = self.matrix
             
-        if densify and isinstance(matrix, pd.SparseDataFrame):
+        if densify and (isinstance(matrix, pd.DataFrame) and matrix.dtypes.apply(pd.api.types.is_sparse).any()):
             if not normalized:
                 print('(where) Densifying matrix...')
             else:
                 print('(where) Densifying normalized matrix...')
-            matrix = matrix.to_dense()
+            matrix = matrix.sparse.to_dense()
                 
         # if no queries, just return the expression matrix
         if (genes is None) & (cells is None):
@@ -486,10 +486,10 @@ class CellPopulation:
             
         # if the data matrix is sparse we densify it before iterating so that 
         # this operation is performed only once
-        if not data_normalized and isinstance(self.matrix, pd.SparseDataFrame) and densify:
+        if not data_normalized and densify and (isinstance(self.matrix, pd.DataFrame) and self.matrix.dtypes.apply(pd.api.types.is_sparse).any()):
             sparsify = True
             self.densify_matrix()
-        elif data_normalized and isinstance(self.normalized_matrix, pd.SparseDataFrame) and densify:
+        elif data_normalized and densify and (isinstance(self.normalized_matrix, pd.DataFrame) and self.normalized_matrix.dtypes.apply(pd.api.types.is_sparse).any()):
             sparsify = True
             self.densify_normalized_matrix()
         else:
