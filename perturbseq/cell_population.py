@@ -366,7 +366,7 @@ class CellPopulation:
         if not self.genes['in_matrix'].all():
             missing = self.genes.query('~in_matrix').copy()
             new_pop.genes = pd.concat([missing, new_pop.genes])
-            new_pop.genes = pd.concat([missing, new_pop.genes]).reindex(self.genes.index)
+            new_pop.genes = new_pop.genes.loc[self.genes.index]
             
         return new_pop
     
