@@ -298,7 +298,7 @@ def onesense(x, y, c, xs, ys,
 
     if label:
         texts = list()
-        for name, xpos in x.iteritems():
+        for name, xpos in x.items():
             ypos = y.loc[name]
             texts.append(axScatter.text(xpos, ypos, name, fontsize=7))
         adjust_text(texts, ax=axScatter, lim=5)
