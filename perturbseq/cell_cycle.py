@@ -186,8 +186,9 @@ def get_cell_phase(pop, gene_list=None, refine=False, threshold=0):
                                                    ascending=[True, False])
 
     # order of cell within cell cycle phase
-    cell_cycle_scores['cell_cycle_order'] = cell_cycle_scores.groupby('cell_cycle_phase').cumcount()
-    cell_cycle_scores['cell_cycle_order'] = cell_cycle_scores.groupby('cell_cycle_phase')['cell_cycle_order'].apply(lambda x: x/(len(x) - 1))
+    cell_cycle_scores['cell_cycle_order'] = cell_cycle_scores.groupby('cell_cycle_phase', observed=False).cumcount()
+    cell_cycle_scores['cell_cycle_order'] = cell_cycle_scores.groupby('cell_cycle_phase', observed=False)['cell_cycle_order'].apply(lambda x: x/(len(x) - 1))
+
 
     return cell_cycle_scores
 
