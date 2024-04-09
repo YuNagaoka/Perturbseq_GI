@@ -28,7 +28,7 @@ def upper_triangle(M, k=1):
     keep = np.triu(np.ones(M.shape), k=k).astype('bool').reshape(M.size)
     # have to use dropna=FALSE on stack, otherwise will secretly drop nans and upper triangle
     # will not behave as expected!!
-    return (dropna=False, future_stack=True).loc[keep]
+    return M.stack(dropna=False).loc[keep]
 
 def _strip_cat_cols(df):
     """Convert categorical columns to string labels (as categorical columns cause problems
