@@ -29,7 +29,7 @@ def group_corr(population, gene_list):
     """
     # returns list of correlations of each gene within a list of genes with the total expression of the group
     expression_matrix = population.where(genes='gene_name in @gene_list', gene_names=True, gene_list=gene_list)
-    expression_matrix['total'] = expression_matrix.mean(axis=1)
+    expression_matrix.loc[:, 'total'] = expression_matrix.mean(axis=1)
     return expression_matrix.corr()['total'][:-1] # delete last element which is total
 
 def refine_gene_list(population, gene_list, threshold, return_corrs=False):
@@ -187,7 +187,7 @@ def get_cell_phase(pop, gene_list=None, refine=False, threshold=0):
 
     # order of cell within cell cycle phase
     cell_cycle_scores['cell_cycle_order'] = cell_cycle_scores.groupby('cell_cycle_phase', observed=False).cumcount()
-    cell_cycle_scores['cell_cycle_order'] = cell_cycle_scores.groupby('cell_cycle_phase', observed=False)['cell_cycle_order'].apply(lambda x: x/(len(x) - 1))
+    cell_cycle_scores['cell_cycle_order'] = cell_cycle_scores.groupby('cell_cycle_phase', observed=False, group_keys=True)['cell_cycle_order'].apply(lambda x: x/(len(x) - 1))
 
 
     return cell_cycle_scores
