@@ -28,9 +28,9 @@ def group_corr(population, gene_list):
         Correlation coefficient of each gene with the mean expression of all
     """
     # returns list of correlations of each gene within a list of genes with the total expression of the group
-    expression_matrix = population.where(genes='gene_name in @gene_list', gene_names=True, gene_list=gene_list)
+    expression_matrix = population.where(genes='gene_name in @gene_list', gene_names=True, gene_list=gene_list).copy()
     expression_matrix.loc[:, 'total'] = expression_matrix.mean(axis=1)
-    return expression_matrix.corr()['total'][:-1] # delete last element which is total
+    return expression_matrix.corr()['total'][:-1]
 
 def refine_gene_list(population, gene_list, threshold, return_corrs=False):
     """Refines a list of genes by removing those that don't correlate well with the average expression of 
